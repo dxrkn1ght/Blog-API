@@ -18,10 +18,10 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(BlogPost)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'headline', 'writer', 'category', 'status', 'published_at')
-    list_filter = ('status', 'category', 'writer', 'published_at')
-    search_fields = ('headline', 'content', 'writer__username')
-    prepopulated_fields = {'slug': ('headline',)}
+    list_display = ('id', 'headline', 'writer', 'category', 'visibility', 'published_at')
+    list_filter = ('visibility', 'category', 'writer', 'published_at')
+    search_fields = ('headline', 'body', 'writer__username')
+    prepopulated_fields = {'identifier': ('headline',)}
     autocomplete_fields = ('category', 'tags', 'writer')
     raw_id_fields = ('writer',)
     ordering = ('-published_at',)
@@ -29,13 +29,13 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(BlogComment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'post', 'created_at')
-    list_filter = ('created_at', 'post', 'author')
-    search_fields = ('content', 'author__username', 'post__title')
+    list_display = ('id', 'commentator', 'post', 'commented_at')
+    list_filter = ('commented_at', 'post', 'commentator')
+    search_fields = ('message', 'commentator__username', 'post__headline')
 
 
 @admin.register(BlogPostLike)
 class PostLikeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'commentator', 'message', 'value', 'commented_at')
-    list_filter = ('value', 'commented_at')
-    search_fields = ('commentator__username', 'post__title')
+    list_display = ('id', 'liker', 'post', 'liked_at')
+    list_filter = ('liked_at',)
+    search_fields = ('liker__username', 'post__headline')
